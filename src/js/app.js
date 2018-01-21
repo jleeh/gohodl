@@ -4,7 +4,7 @@ App = {
 
   init: function() {
     // Create date time picker
-    $('#retrieval-date').datetimepicker();
+    $('#date').datetimepicker();
 
     return App.initWeb3();
   },
@@ -69,7 +69,7 @@ App = {
   hodlTokens: async(accounts) => {
     tokenAddress = $("#token-address").val();
     amount = parseInt($("#amount").val());
-    date = Math.floor(parseInt($("#date").val()) / 1000);
+    date = Math.floor($('#date').data("DateTimePicker").date() / 1000);
 
     contract = await App.contracts.Hodl.deployed();
     try {
