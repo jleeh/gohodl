@@ -4,8 +4,10 @@
       <meta charset="utf-8">
       <meta http-equiv="X-UA-Compatible" content="IE=edge">
       <meta name="viewport" content="width=device-width, initial-scale=1">
+      <link rel="icon" type="image/png" href="favicon-32x32.png" sizes="32x32" />
+      <link rel="icon" type="image/png" href="favicon-16x16.png" sizes="16x16" />
       <!-- The above 3 meta tags *must* come first in the head; any other head content must come *after* these tags -->
-      <title>GoHodl - Forceful Hodling</title>
+      <title>GoHodl - Contract Backed Hodling</title>
       <!-- Bootstrap -->
       <link href="css/bootstrap.min.css" rel="stylesheet">
       <!-- Date Time Picker -->
@@ -17,9 +19,186 @@
       <script src="https://oss.maxcdn.com/respond/1.4.2/respond.min.js"></script>
       <![endif]-->
       <style>
-         .spacer {
-         height:20px;
-         }
+        .spacer {
+            height:20px;
+        }
+
+        .header {
+            font-family: 'Quicksand';
+            font-size: 64px;
+        }
+
+        h1 {
+            font-family: 'Quicksand';
+        }
+
+        @font-face {
+            font-family: 'Quicksand';
+            font-weight: bold;
+            src: url("fonts/Quicksand_Dash.otf") format("opentype");
+        }
+        @keyframes lds-ellipsis3 {
+        0%, 25% {
+            left: 32px;
+            -webkit-transform: scale(0);
+            transform: scale(0);
+        }
+        50% {
+            left: 32px;
+            -webkit-transform: scale(1);
+            transform: scale(1);
+        }
+        75% {
+            left: 100px;
+        }
+        100% {
+            left: 168px;
+            -webkit-transform: scale(1);
+            transform: scale(1);
+        }
+        }
+        @-webkit-keyframes lds-ellipsis3 {
+        0%, 25% {
+            left: 32px;
+            -webkit-transform: scale(0);
+            transform: scale(0);
+        }
+        50% {
+            left: 32px;
+            -webkit-transform: scale(1);
+            transform: scale(1);
+        }
+        75% {
+            left: 100px;
+        }
+        100% {
+            left: 168px;
+            -webkit-transform: scale(1);
+            transform: scale(1);
+        }
+        }
+        @keyframes lds-ellipsis2 {
+        0% {
+            -webkit-transform: scale(1);
+            transform: scale(1);
+        }
+        25%, 100% {
+            -webkit-transform: scale(0);
+            transform: scale(0);
+        }
+        }
+        @-webkit-keyframes lds-ellipsis2 {
+        0% {
+            -webkit-transform: scale(1);
+            transform: scale(1);
+        }
+        25%, 100% {
+            -webkit-transform: scale(0);
+            transform: scale(0);
+        }
+        }
+        @keyframes lds-ellipsis {
+        0% {
+            left: 32px;
+            -webkit-transform: scale(0);
+            transform: scale(0);
+        }
+        25% {
+            left: 32px;
+            -webkit-transform: scale(1);
+            transform: scale(1);
+        }
+        50% {
+            left: 100px;
+        }
+        75% {
+            left: 168px;
+            -webkit-transform: scale(1);
+            transform: scale(1);
+        }
+        100% {
+            left: 168px;
+            -webkit-transform: scale(0);
+            transform: scale(0);
+        }
+        }
+        @-webkit-keyframes lds-ellipsis {
+        0% {
+            left: 32px;
+            -webkit-transform: scale(0);
+            transform: scale(0);
+        }
+        25% {
+            left: 32px;
+            -webkit-transform: scale(1);
+            transform: scale(1);
+        }
+        50% {
+            left: 100px;
+        }
+        75% {
+            left: 168px;
+            -webkit-transform: scale(1);
+            transform: scale(1);
+        }
+        100% {
+            left: 168px;
+            -webkit-transform: scale(0);
+            transform: scale(0);
+        }
+        }
+        .lds-ellipsis {
+        position: relative;
+        }
+        .lds-ellipsis > div {
+        position: absolute;
+        -webkit-transform: translate(-50%, -50%);
+        transform: translate(-50%, -50%);
+        width: 40px;
+        height: 40px;
+        }
+        .lds-ellipsis div > div {
+        width: 40px;
+        height: 40px;
+        border-radius: 50%;
+        background: #f00;
+        position: absolute;
+        top: 100px;
+        left: 32px;
+        -webkit-animation: lds-ellipsis 1s cubic-bezier(0, 0.5, 0.5, 1) infinite forwards;
+        animation: lds-ellipsis 1s cubic-bezier(0, 0.5, 0.5, 1) infinite forwards;
+        }
+        .lds-ellipsis div:nth-child(1) div {
+        -webkit-animation: lds-ellipsis2 1s cubic-bezier(0, 0.5, 0.5, 1) infinite forwards;
+        animation: lds-ellipsis2 1s cubic-bezier(0, 0.5, 0.5, 1) infinite forwards;
+        background: #dce4eb;
+        }
+        .lds-ellipsis div:nth-child(2) div {
+        -webkit-animation-delay: -0.5s;
+        animation-delay: -0.5s;
+        background: #bbcedd;
+        }
+        .lds-ellipsis div:nth-child(3) div {
+        -webkit-animation-delay: -0.25s;
+        animation-delay: -0.25s;
+        background: #85a2b6;
+        }
+        .lds-ellipsis div:nth-child(4) div {
+        -webkit-animation-delay: 0s;
+        animation-delay: 0s;
+        background: #fdfdfd;
+        }
+        .lds-ellipsis div:nth-child(5) div {
+        -webkit-animation: lds-ellipsis3 1s cubic-bezier(0, 0.5, 0.5, 1) infinite forwards;
+        animation: lds-ellipsis3 1s cubic-bezier(0, 0.5, 0.5, 1) infinite forwards;
+        background: #dce4eb;
+        }
+        .lds-ellipsis {
+        width: 50px !important;
+        height: 50px !important;
+        -webkit-transform: translate(-25px, -25px) scale(0.25) translate(25px, 25px);
+        transform: translate(-25px, -25px) scale(0.25) translate(25px, 25px);
+        }
       </style>
    </head>
    <body>
@@ -27,15 +206,26 @@
          <div class="row">
             <div class="col-xs-12 col-sm-12">
                <br/>
-               <h1 class="text-center">GoHodl</h1>
+               <h1 class="text-center header">GoHodl.it</h1>
                <hr/>
-               <br/>
             </div>
          </div>
          <div class="row">
-            <h1>dApp</h1>
-         </div>
-         <div class="spacer"></div>
+            <div class="col-xs-12">
+                <h1>Important</h1>
+            </div>
+        </div>
+        <div class="row">
+            <div class="col-xs-12">
+                <ul>
+                    <li><strong>Make sure the retrieval date is correct.</strong> Once you send your tokens, there's no way to retrieve them until after that date.</li>
+                    <li>Only ERC20 tokens are supported. ETH is not supported.</li>
+                    <li>Only browsers and plugins are supported, for example: Metamask, Brave. No private keys.</li>
+                    <li>Happy Hodling!</li>
+                </ul>
+            </div>
+        </div>
+        <div class="spacer"></div>
          <div class="row">
             <div class="col-xs-12 col-md-4">
                <div class="panel panel-default">
@@ -43,11 +233,12 @@
                      <h3 class="panel-title">Hodl your Tokens</h3>
                   </div>
                   <div class="panel-body">
-                     <div id="hodl-error" class="alert alert-danger hidden" role="alert" style="display:none"></div>
-                     <div id="hodl-update" class="alert alert-primary hidden" role="alert" style="display:none"></div>
+                     <div id="hodl-loading" style="display:none;"><div class="lds-css ng-scope"><div style="width:100%;height:100%" class="lds-ellipsis"><div><div></div></div><div><div></div></div><div><div></div></div><div><div></div></div><div><div></div></div></div></div></div>
+                     <div id="hodl-error" class="alert alert-danger" role="alert" style="display:none"></div>
+                     <div id="hodl-update" class="alert alert-success" role="alert" style="display:none"></div>
                      <div class="form-group">
                         <label for="token-address">ERC20 Token Address:</label>
-                        <input type="text" class="form-control" id="token-address">
+                        <input type="text" class="form-control" id="token-address" placeholder="0x732a23e0588e966fc6ee3fa17c660fec3c882de6">
                      </div>
                      <div class="form-group">
                         <label for="token-address">Amount:</label>
@@ -55,63 +246,65 @@
                      </div>
                      <div class="form-group">
                         <label for="token-address">Date of Retrieval:</label>
-                        <input type='text' class="form-control" id='date' />
+                        <div class='input-group date' id='datepicker'>
+                            <input type='text' class="form-control" id='date' />
+                            <span class="input-group-addon">
+                                <span class="glyphicon glyphicon-calendar"></span>
+                            </span>
+                        </div>
                      </div>
-                     <button type="button" id="hodl" class="btn btn-primary">Go HODL</button>
+                     <button type="button" id="hodl" class="btn btn-primary">Hodl</button>
                   </div>
                </div>
             </div>
-            <div class="spacer col-xs-12 hidden-sm-up"></div>
             <div class="col-xs-12 col-md-4">
                <div class="panel panel-default">
                   <div class="panel-heading">
                      <h3 class="panel-title">Check Retrieval Date</h3>
                   </div>
                   <div class="panel-body">
-                     <div id="check-update-error" class="alert alert-danger hidden" role="alert" style="display:none"></div>
-                     <div id="check-update" class="alert alert-primary hidden" role="alert" style="display:none"></div>
+                     <div id="check-update-error" class="alert alert-danger" role="alert" style="display:none"></div>
+                     <div id="check-update" class="alert alert-success" role="alert" style="display:none"></div>
                      <div class="form-group">
                         <label for="token-address">ERC20 Token Address:</label>
-                        <input type="text" class="form-control" id="check-token-address">
+                        <input type="text" class="form-control" id="check-token-address" placeholder="0x732a23e0588e966fc6ee3fa17c660fec3c882de6">
                      </div>
                      <button id="check" type="button" class="btn btn-primary">Check</button>
                   </div>
                </div>
             </div>
-            <div class="spacer col-xs-12 hidden-sm-up"></div>
             <div class="col-xs-12 col-md-4">
                <div class="panel panel-default">
                   <div class="panel-heading">
                      <h3 class="panel-title">Get your Tokens</h3>
                   </div>
                   <div class="panel-body">
+                     <div id="get-loading" style="display:none;"><div class="lds-css ng-scope"><div style="width:100%;height:100%" class="lds-ellipsis"><div><div></div></div><div><div></div></div><div><div></div></div><div><div></div></div><div><div></div></div></div></div></div>
+                     <div id="get-error" class="alert alert-danger" role="alert" style="display:none"></div>
+                     <div id="get-update" class="alert alert-success" role="alert" style="display:none"></div>
                      <div class="form-group">
                         <label for="token-address">ERC20 Token Address:</label>
-                        <input type="text" class="form-control" id="token-address">
+                        <input type="text" class="form-control" id="get-token-address" placeholder="0x732a23e0588e966fc6ee3fa17c660fec3c882de6">
                      </div>
-                     <button type="button" class="btn btn-primary">Get'em</button>
+                     <button type="button" id="get" class="btn btn-primary">Get'em</button>
                   </div>
                </div>
             </div>
          </div>
-        <div class="spacer"></div>
         <div class="row">
-          <h1>Information</h1>
+            <div class="col-xs-12">
+                <h1>Information</h1>
+            </div>
         </div>
-        <div class="spacer"></div>
         <div class="row">
           <div class="col-xs-12">
-              <div class="panel panel-default">
-                <div class="panel-body">
-                    <p>
-                      <strong>Source Code:</strong> <a href="https://github.com/jleeh/gohodl">GitHub</a>
-                      <br />
-                      <strong>ETH Donation Address:</strong> 0x58f251EAdEF20c6aB734bF166EF7d61a79B12df4
-                      <br />
-                      Created by the <a href="http://linkpool.io">LinkPool</a> Team
-                    </p>
-                </div>
-              </div>
+                <strong>Deployed Contract:</strong> <a id='contract-address' href="">Etherscan</a>
+                <br />
+                <strong>Source Code:</strong> <a href="https://github.com/jleeh/gohodl">GitHub</a>
+                <br />
+                <strong>ETH Donation Address:</strong> 0x58f251EAdEF20c6aB734bF166EF7d61a79B12df4
+                <br />
+                Created by the <a href="http://linkpool.io">LinkPool</a> Team
           </div>
         </div>
         <div class="spacer"></div>

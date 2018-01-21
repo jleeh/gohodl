@@ -18,6 +18,11 @@ contract('Hodl', accounts => {
         return new Promise(resolve => setTimeout(resolve, ms));
     }
 
+    // Function to always round numbers to 7 stabilise tests
+    function toEther(value) {
+        return Number(value).toFixed(7);  
+    }    
+
     // Account balance for tests
     var accountBalance;
 
@@ -37,15 +42,16 @@ contract('Hodl', accounts => {
         timestamp = getTimestamp() + 1; // Add 1 second to now
         
         accountBalance = await token.balanceOf(accounts[0]);
+        accountBalance = web3.fromWei(accountBalance.toNumber(), 'ether');
 
-        await token.approve(Hodl.address, 10000);
-        await hodlContract.hodlTokens(Token.address, 10000, timestamp, { from: accounts[0] });
+        await token.approve(Hodl.address, web3.toWei(10000, 'ether'));
+        await hodlContract.hodlTokens(Token.address, web3.toWei(10000, 'ether'), timestamp, { from: accounts[0] });
         
         contractTimestamp = await hodlContract.getTimestamp(Token.address);
         updatedBalance = await token.balanceOf(accounts[0]);
 
         assert.equal(timestamp, contractTimestamp.toNumber(), "Timestamp returned from contract should equal what was generated");
-        assert.equal(accountBalance - 10000, updatedBalance, "Balance should of reduced after hodl'n");
+        assert.equal(accountBalance - 10000, web3.fromWei(updatedBalance.toNumber(), 'ether'), "Balance should of reduced after hodl'n");
     });
 
     /**
@@ -68,6 +74,6 @@ contract('Hodl', accounts => {
         await hodlContract.getTokens(Token.address);
         updatedBalance = await token.balanceOf(accounts[0]);
 
-        assert.equal(accountBalance.toNumber(), updatedBalance.toNumber(), "Balance should of returned to normal");
+        assert.equal(accountBalance, web3.fromWei(updatedBalance.toNumber(), 'ether'), "Balance should of returned to normal");
     });
 });

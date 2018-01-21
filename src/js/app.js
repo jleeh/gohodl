@@ -4,7 +4,8 @@ App = {
 
   init: function() {
     // Create date time picker
-    $('#date').datetimepicker();
+    $('#datepicker').datetimepicker();
+    $('#datepicker').data("DateTimePicker").date(new Date());
 
     return App.initWeb3();
   },
@@ -30,6 +31,11 @@ App = {
     
       // Set the provider for our contract
       App.contracts.Hodl.setProvider(App.web3Provider);
+
+      //Set the contract address
+      App.contracts.Hodl.deployed().then(function(instance) {
+        $('#contract-address').attr("href", "https://etherscan.io/address/" + instance.address);
+      });
     });
     $.getJSON('ERC20.json', function(data) {
       // Get the necessary contract artifact file and instantiate it with truffle-contract
@@ -46,64 +52,91 @@ App = {
   bindEvents: function() {
     $(document).on('click', '#check', App.checkRetrieval);
     $(document).on('click', '#hodl', App.hodlTokens);
+    $(document).on('click', '#get', App.getTokens);
   },
 
-  checkRetrieval: async(accounts) => {
+  checkRetrieval: async() => {
     contract = await App.contracts.Hodl.deployed();
     tokenAddress = $("#check-token-address").val();
-    timestamp = await contract.getTimestamp(tokenAddress, { from: accounts[0] });
-    
+    timestamp = await contract.getTimestamp(tokenAddress, { from: web3.eth.accounts[0] });
     if (timestamp.toNumber() == 0) {
-      updateText = "You don't have any tokens with that address hodl'd!"
+      updateText = "You don't have any tokens by that address!"
       $("#check-update-error").show();
       $("#check-update").hide();
       $("#check-update-error").text(updateText);
     } else {
-      updateText = "<strong>Date of Retrieval:</strong> " + new Date(timestamp.toNumber() * 1000);
+      updateText = "Date of Retrieval: " + new Date(timestamp.toNumber() * 1000);
       $("#check-update-error").hide();
       $("#check-update").show();
       $("#check-update").text(updateText);
     }
   },
 
-  hodlTokens: async(accounts) => {
+  getTokens: async() => {
+    $("#get-loading").show();
+    $("#get-update").hide();
+    $("#get-error").hide();
+    tokenAddress = $("#get-token-address").val();
+    contract = await App.contracts.Hodl.deployed();
+    try {
+      receipt = await contract.getTokens(tokenAddress, { from: web3.eth.accounts[0] });
+    } catch (e) {
+      $("#get-loading").hide();
+      $("#get-error").show();
+      $("#get-update").hide();
+      $("#get-error").text("Get tokens failed. You have no tokens hodl'd or your expiration date must be after now.");
+      throw(e);
+    }
+    $("#get-error").hide();
+    $("#get-update").show();
+    $("#get-update").html("Successful! TX ID: <a href='https://etherscan.io/tx/" + receipt.tx + "'>Etherscan Transaction Link</a>");
+    $("#get-loading").hide();
+  },
+
+  hodlTokens: async() => {
+    $("#hodl-loading").show();
+    $("#hodl-update").hide();
+    $("#hodl-error").hide();
     tokenAddress = $("#token-address").val();
     amount = parseInt($("#amount").val());
-    date = Math.floor($('#date').data("DateTimePicker").date() / 1000);
+    date = Math.floor($('#datepicker').data("DateTimePicker").date() / 1000);
 
     contract = await App.contracts.Hodl.deployed();
+
     try {
       token = await App.contracts.ERC20.at(tokenAddress);
     } catch (e) {
-      updateText = "Invalid Token Address!";
       $("#hodl-update").hide();
+      $("#hodl-loading").hide();
       $("#hodl-error").show();
-      $("#hodl-error").text(updateText);
-      return;
+      $("#hodl-error").text("Invalid Token Address!");
+      throw(e);
     }
+
     try {
-      await token.approve(App.contracts.Hodl.address, amount, { from: accounts[0] });
+      await token.approve(App.contracts.Hodl.address, web3.toWei(amount, 'ether'), { from: web3.eth.accounts[0] });
     } catch (e) {
-      updateText = "Amount entered exceeds your token amount.";
       $("#hodl-update").hide();
+      $("#hodl-loading").hide();
       $("#hodl-error").show();
-      $("#hodl-error").text(updateText);
-      return;
+      $("#hodl-error").text("Amount entered exceeds your token amount.");
+      throw(e);
     }
-    tx = await contract.hodlTokens(tokenAddress, amount, timestamp, { from: accounts[0] });
-    console.log(tx);
-    
-    if (tx.id !== "undefined") {
-      updateText = "Successful! TX ID: " + tx.id;
-      $("#hodl-error").hide();
-      $("#hodl-update").show();
-      $("#hodl-update").text(updateText);
-    } else {
-      updateText = "Contract error! Do you have enough of that token?";
+
+    try {
+      receipt = await contract.hodlTokens(token.address, web3.toWei(amount, 'ether'), date, { from: web3.eth.accounts[0] });
+    } catch(e) {
+      $("#hodl-loading").hide();
       $("#hodl-error").show();
       $("#hodl-update").hide();
-      $("#hodl-error").text(updateText);
+      $("#hodl-error").text("Contract error!");
+      throw(e);
     }
+
+    $("#hodl-error").hide();
+    $("#hodl-update").show();
+    $("#hodl-update").html("Successful! TX ID: <a href='https://etherscan.io/tx/" + receipt.tx + "'>Etherscan Transaction Link</a>");
+    $("#hodl-loading").hide();
   }
 };
 
