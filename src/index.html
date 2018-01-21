@@ -1,0 +1,140 @@
+<!DOCTYPE html>
+<html lang="en">
+   <head>
+      <meta charset="utf-8">
+      <meta http-equiv="X-UA-Compatible" content="IE=edge">
+      <meta name="viewport" content="width=device-width, initial-scale=1">
+      <!-- The above 3 meta tags *must* come first in the head; any other head content must come *after* these tags -->
+      <title>GoHodl - Forceful Hodling</title>
+      <!-- Bootstrap -->
+      <link href="css/bootstrap.min.css" rel="stylesheet">
+      <!-- Date Time Picker -->
+      <link href="css/bootstrap-datetimepicker.min.css" rel="stylesheet">
+      <!-- HTML5 shim and Respond.js for IE8 support of HTML5 elements and media queries -->
+      <!-- WARNING: Respond.js doesn't work if you view the page via file:// -->
+      <!--[if lt IE 9]>
+      <script src="https://oss.maxcdn.com/html5shiv/3.7.3/html5shiv.min.js"></script>
+      <script src="https://oss.maxcdn.com/respond/1.4.2/respond.min.js"></script>
+      <![endif]-->
+      <style>
+         .spacer {
+         height:20px;
+         }
+      </style>
+   </head>
+   <body>
+      <div class="container">
+         <div class="row">
+            <div class="col-xs-12 col-sm-12">
+               <br/>
+               <h1 class="text-center">GoHodl</h1>
+               <hr/>
+               <br/>
+            </div>
+         </div>
+         <div class="row">
+            <h1>dApp</h1>
+         </div>
+         <div class="spacer"></div>
+         <div class="row">
+            <div class="col-xs-12 col-md-4">
+               <div class="panel panel-default">
+                  <div class="panel-heading">
+                     <h3 class="panel-title">Hodl your Tokens</h3>
+                  </div>
+                  <div class="panel-body">
+                     <div id="hodl-error" class="alert alert-danger hidden" role="alert" style="display:none"></div>
+                     <div id="hodl-update" class="alert alert-primary hidden" role="alert" style="display:none"></div>
+                     <div class="form-group">
+                        <label for="token-address">ERC20 Token Address:</label>
+                        <input type="text" class="form-control" id="token-address">
+                     </div>
+                     <div class="form-group">
+                        <label for="token-address">Amount:</label>
+                        <input type="text" class="form-control" id="amount">
+                     </div>
+                     <div class="form-group">
+                        <label for="token-address">Date of Retrieval:</label>
+                        <div class="container">
+                            <div class='col-sm-6'>
+                                <div class="form-group">
+                                  <div class='input-group date' id='retrieval-date'>
+                                      <input type='text' class="form-control" />
+                                      <span class="input-group-addon">
+                                      <span class="glyphicon glyphicon-calendar"></span>
+                                      </span>
+                                  </div>
+                                </div>
+                            </div>
+                        </div>
+                     </div>
+                     <button type="button" id="hodl" class="btn btn-primary">Go HODL</button>
+                  </div>
+               </div>
+            </div>
+            <div class="spacer col-xs-12 hidden-sm-up"></div>
+            <div class="col-xs-12 col-md-4">
+               <div class="panel panel-default">
+                  <div class="panel-heading">
+                     <h3 class="panel-title">Check Retrieval Date</h3>
+                  </div>
+                  <div class="panel-body">
+                     <div id="check-update-error" class="alert alert-danger hidden" role="alert" style="display:none"></div>
+                     <div id="check-update" class="alert alert-primary hidden" role="alert" style="display:none"></div>
+                     <div class="form-group">
+                        <label for="token-address">ERC20 Token Address:</label>
+                        <input type="text" class="form-control" id="check-token-address">
+                     </div>
+                     <button id="check" type="button" class="btn btn-primary">Check</button>
+                  </div>
+               </div>
+            </div>
+            <div class="spacer col-xs-12 hidden-sm-up"></div>
+            <div class="col-xs-12 col-md-4">
+               <div class="panel panel-default">
+                  <div class="panel-heading">
+                     <h3 class="panel-title">Get your Tokens</h3>
+                  </div>
+                  <div class="panel-body">
+                     <div class="form-group">
+                        <label for="token-address">ERC20 Token Address:</label>
+                        <input type="text" class="form-control" id="token-address">
+                     </div>
+                     <button type="button" class="btn btn-primary">Get'em</button>
+                  </div>
+               </div>
+            </div>
+         </div>
+        <div class="spacer"></div>
+        <div class="row">
+          <h1>Information</h1>
+        </div>
+        <div class="spacer"></div>
+        <div class="row">
+          <div class="col-xs-12">
+              <div class="panel panel-default">
+                <div class="panel-body">
+                    <p>
+                      <strong>Source Code:</strong> <a href="https://github.com/jleeh/gohodl">GitHub</a>
+                      <br />
+                      <strong>ETH Donation Address:</strong> 0x58f251EAdEF20c6aB734bF166EF7d61a79B12df4
+                      <br />
+                      Created by the <a href="http://linkpool.io">LinkPool</a> Team
+                    </p>
+                </div>
+              </div>
+          </div>
+        </div>
+        <div class="spacer"></div>
+      </div>
+      <!-- jQuery (necessary for Bootstrap's JavaScript plugins) -->
+      <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.12.4/jquery.min.js"></script>
+      <!-- Include all compiled plugins (below), or include individual files as needed -->
+      <script type="text/javascript" src="js/moment-with-locales.min.js"></script>
+      <script type="text/javascript" src="js/bootstrap-datetimepicker.min.js"></script>
+      <script src="js/bootstrap.min.js"></script>
+      <script src="js/web3.min.js"></script>
+      <script src="js/truffle-contract.js"></script>
+      <script src="js/app.js"></script>
+   </body>
+</html>
