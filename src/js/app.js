@@ -3,8 +3,9 @@ App = {
   contracts: {},
   etherscan: { main: "https://etherscan.io/", ropsten: "https://ropsten.etherscan.io/" },
   currentEtherscan: "",
+  account: "",
 
-  init: function() {
+  init: async() => {
     // Create date time picker
     $('#datepicker').datetimepicker();
     $('#datepicker').data("DateTimePicker").date(new Date());
@@ -12,7 +13,7 @@ App = {
     return App.initWeb3();
   },
 
-  initWeb3: function() {
+  initWeb3: async() => {
     // Is there an injected web3 instance?
     if (typeof web3 !== 'undefined') {
       App.web3Provider = web3.currentProvider;
@@ -33,7 +34,7 @@ App = {
         default:
           $('#web3-error').text("Contract isn't deployed to this network. App is disabled.");
           $('#web3-error').show();
-          break;
+          return;
       }
     } else {
       $('#web3-error').text("No web3 provider found! Please install Metamask or use Brave.");
@@ -42,10 +43,20 @@ App = {
     }
     web3 = new Web3(App.web3Provider);
 
+    return App.checkAccounts();
+  },
+
+  checkAccounts: async() => {
+    if (web3.eth.accounts.length == 0) {
+      $('#web3-error').text("Unlock your account with your web3 provider.");
+      $('#web3-error').show();
+      return;
+    }
+    App.account = web3.eth.accounts[0];
     return App.initContract();
   },
 
-  initContract: function() {
+  initContract: async() => {
     $.getJSON('Hodl.json', function(data) {
       // Get the necessary contract artifact file and instantiate it with truffle-contract
       var HodlArtifact = data;
@@ -76,7 +87,7 @@ App = {
     return App.bindEvents();
   },
 
-  bindEvents: function() {
+  bindEvents: async() => {
     $(document).on('click', '#check', App.checkRetrieval);
     $(document).on('click', '#hodl', App.hodlTokens);
     $(document).on('click', '#get', App.getTokens);
@@ -178,5 +189,10 @@ App = {
 $(function() {
   $(window).load(function() {
     App.init();
+    var accountInterval = setInterval(function() {
+      if (web3.eth.accounts[0] !== App.account) {
+        App.init();
+      }
+    }, 100);
   });
 });
