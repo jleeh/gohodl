@@ -35,15 +35,6 @@ App = {
           $('#web3-error').show();
           break;
       }
-
-      // Accounts unlocked?
-      accounts = web3.eth.accounts;
-      if (accounts.length == 0) {
-        $('#web3-error').text("Unlock your account with your web3 provider and refresh the page.");
-        $('#web3-error').show();
-        return;
-      }
-
     } else {
       $('#web3-error').text("No web3 provider found! Please install Metamask or use Brave.");
       $('#web3-error').show();
