@@ -220,16 +220,18 @@
                 <ul>
                     <li><strong>Make sure the retrieval date is correct.</strong> Once you send your tokens, there's no way to retrieve them until after that date.</li>
                     <li>Only ERC20 tokens are supported. ETH is not supported.</li>
-                    <li>Only browsers and plugins are supported, for example: Metamask, Brave. No private keys.</li>
+                    <li>Only browsers and plugins are supported, for example: Metamask, Brave. No private keys. Ledger support very soon!</li>
                     <li><strong>Zero fees.</strong> You only have to pay the GAS cost for sending/recieving your tokens. This is just a fun project.</li>
-                    <li>Happy Hodling!</li>
+                    <li>When you send tokens to hodl, it will create two transactions. One to approve the contract to transfer the tokens, and the other to send them to the contract.</li>
+                    <li>Most importantly, happy hodling!</li>
                 </ul>
             </div>
         </div>
         <div class="spacer"></div>
         <div class="row">
             <div class="col-xs-12">
-                <div id="web3-error" class="alert alert-warning" role="alert" style="display:none"></div>
+                <div id="web3-error" class="alert alert-danger" role="alert" style="display:none"></div>
+                <div id="web3-ropsten" class="alert alert-warning" role="alert" style="display:none"></div>
             </div>
         </div>
          <div class="row">
@@ -259,7 +261,7 @@
                             </span>
                         </div>
                      </div>
-                     <button type="button" id="hodl" class="btn btn-primary">Hodl</button>
+                     <button type="button" id="hodl" class="btn btn-primary" disabled>Hodl</button>
                   </div>
                </div>
             </div>
@@ -275,7 +277,7 @@
                         <label for="token-address">ERC20 Token Address:</label>
                         <input type="text" class="form-control" id="check-token-address" placeholder="0x732a23e0588e966fc6ee3fa17c660fec3c882de6">
                      </div>
-                     <button id="check" type="button" class="btn btn-primary">Check</button>
+                     <button id="check" type="button" class="btn btn-primary" disabled>Check</button>
                   </div>
                </div>
             </div>
@@ -292,7 +294,7 @@
                         <label for="token-address">ERC20 Token Address:</label>
                         <input type="text" class="form-control" id="get-token-address" placeholder="0x732a23e0588e966fc6ee3fa17c660fec3c882de6">
                      </div>
-                     <button type="button" id="get" class="btn btn-primary">Get'em</button>
+                     <button type="button" id="get" class="btn btn-primary" disabled>Get'em</button>
                   </div>
                </div>
             </div>
@@ -304,7 +306,7 @@
         </div>
         <div class="row">
           <div class="col-xs-12">
-                <strong>Deployed Contract:</strong> <a id='contract-address' href="">Etherscan</a>
+                <strong>Deployed Contract:</strong> <a id='contract-address' href="">Not Deployed on this Network</a>
                 <br />
                 <strong>Source Code:</strong> <a href="https://github.com/jleeh/gohodl">GitHub</a>
                 <br />

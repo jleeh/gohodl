@@ -9,7 +9,6 @@ coverage
 geth/dev-chain
 
 # production
-build
 build_webpack
 
 # misc

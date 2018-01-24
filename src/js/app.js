@@ -1,6 +1,8 @@
 App = {
   web3Provider: null,
   contracts: {},
+  etherscan: { main: "https://etherscan.io/", ropsten: "https://ropsten.etherscan.io/" },
+  currentEtherscan: "",
 
   init: function() {
     // Create date time picker
@@ -14,6 +16,34 @@ App = {
     // Is there an injected web3 instance?
     if (typeof web3 !== 'undefined') {
       App.web3Provider = web3.currentProvider;
+
+      // Switch the etherscan URL and show a notice depending on the network
+      networkId = web3.version.network;
+      switch (networkId) {
+        case "1":
+          App.currentEtherscan = App.etherscan.main;
+          break;
+        
+        case "3":
+          App.currentEtherscan = App.etherscan.ropsten;
+          $('#web3-ropsten').text("You're currently connected to Ropsten, using Ropsten GoHodl contract.");
+          $('#web3-ropsten').show();
+          break;
+
+        default:
+          $('#web3-error').text("Contract isn't deployed to this network. App is disabled.");
+          $('#web3-error').show();
+          break;
+      }
+
+      // Accounts unlocked?
+      accounts = web3.eth.accounts;
+      if (accounts.length == 0) {
+        $('#web3-error').text("Unlock your account with your web3 provider and refresh the page.");
+        $('#web3-error').show();
+        return;
+      }
+
     } else {
       $('#web3-error').text("No web3 provider found! Please install Metamask or use Brave.");
       $('#web3-error').show();
@@ -35,7 +65,12 @@ App = {
 
       //Set the contract address
       App.contracts.Hodl.deployed().then(function(instance) {
-        $('#contract-address').attr("href", "https://etherscan.io/address/" + instance.address);
+        $('#web3-error').hide();
+        $('#contract-address').attr("href", App.currentEtherscan + "address/" + instance.address);
+        $('#contract-address').text("Contract");
+        $("#hodl").prop("disabled", false);
+        $("#check").prop("disabled", false);
+        $("#get").prop("disabled", false);
       });
     });
     $.getJSON('ERC20.json', function(data) {
@@ -77,6 +112,7 @@ App = {
     $("#get-loading").show();
     $("#get-update").hide();
     $("#get-error").hide();
+    $("#get").prop("disabled", true);
     tokenAddress = $("#get-token-address").val();
     contract = await App.contracts.Hodl.deployed();
     try {
@@ -86,18 +122,21 @@ App = {
       $("#get-error").show();
       $("#get-update").hide();
       $("#get-error").text("Get tokens failed. You have no tokens hodl'd or your expiration date must be after now.");
+      $("#get").prop("disabled", false);
       throw(e);
     }
     $("#get-error").hide();
     $("#get-update").show();
-    $("#get-update").html("Successful! TX ID: <a href='https://etherscan.io/tx/" + receipt.tx + "'>Etherscan Transaction Link</a>");
+    $("#get-update").html("Contract request created. TX ID: <a href='" + App.currentEtherscan + "tx/" + receipt.tx + "'>Etherscan Transaction Link</a>");
     $("#get-loading").hide();
+    $("#get").prop("disabled", false);
   },
 
   hodlTokens: async() => {
     $("#hodl-loading").show();
     $("#hodl-update").hide();
     $("#hodl-error").hide();
+    $("#hodl").prop("disabled", true);
     tokenAddress = $("#token-address").val();
     amount = parseInt($("#amount").val());
     date = Math.floor($('#datepicker').data("DateTimePicker").date() / 1000);
@@ -111,6 +150,7 @@ App = {
       $("#hodl-loading").hide();
       $("#hodl-error").show();
       $("#hodl-error").text("Invalid Token Address!");
+      $("#hodl").prop("disabled", false);
       throw(e);
     }
 
@@ -121,6 +161,7 @@ App = {
       $("#hodl-loading").hide();
       $("#hodl-error").show();
       $("#hodl-error").text("Amount entered exceeds your token amount.");
+      $("#hodl").prop("disabled", false);
       throw(e);
     }
 
@@ -131,13 +172,15 @@ App = {
       $("#hodl-error").show();
       $("#hodl-update").hide();
       $("#hodl-error").text("Contract error!");
+      $("#hodl").prop("disabled", false);
       throw(e);
     }
 
     $("#hodl-error").hide();
     $("#hodl-update").show();
-    $("#hodl-update").html("Successful! TX ID: <a href='https://etherscan.io/tx/" + receipt.tx + "'>Etherscan Transaction Link</a>");
+    $("#hodl-update").html("Contract request created. TX ID: <a href='" + App.currentEtherscan + "tx/" + receipt.tx + "'>Etherscan Transaction Link</a>");
     $("#hodl-loading").hide();
+    $("#hodl").prop("disabled", false);
   }
 };
 
