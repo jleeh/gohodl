@@ -32,6 +32,9 @@ contract Hodl {
 
         ERC20 erc20 = ERC20(tokenAddress);
         uint256 amount = amounts[msg.sender][tokenAddress];
+
+        delete amounts[msg.sender][tokenAddress];
+        delete timestamps[msg.sender][tokenAddress];
         require(erc20.transfer(msg.sender, amount) == true);
 
         TokenReturn(msg.sender, tokenAddress, amount);

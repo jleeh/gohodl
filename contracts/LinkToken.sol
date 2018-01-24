@@ -220,9 +220,9 @@ contract ERC677Token is ERC677 {
 contract LinkToken is StandardToken, ERC677Token {
 
   uint public constant totalSupply = 10**27;
-  string public constant name = 'ChainLink Token';
+  string public constant name = 'TestLink Token';
   uint8 public constant decimals = 18;
-  string public constant symbol = 'LINK';
+  string public constant symbol = 'TINK';
 
   function LinkToken() public {
     balances[msg.sender] = totalSupply;
