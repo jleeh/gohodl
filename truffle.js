@@ -7,10 +7,10 @@ module.exports = {
     },
     ropsten:  {
       network_id: 3,
-      host: "",
+      host: "geth.ropsten.lp",
       port:  8545,
       gas:   2680000,
-      from: ""
+      from: "0xab12e6280e1024825f4880268a9c9618a2dca3f5"
     }
   },
   rpc: {

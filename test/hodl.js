@@ -55,6 +55,20 @@ contract('Hodl', accounts => {
     });
 
     /**
+     * Shouldn't be able to add tokens of the existing erc20 address
+     */
+    it("shouldn't be able to add tokens of the existing erc20 address", async() => {
+        await token.approve(Hodl.address, web3.toWei(10000, 'ether'));
+        try {
+            await hodlContract.hodlTokens(Token.address, web3.toWei(10000, 'ether'), timestamp, { from: accounts[0] });
+            assert.fail;
+        } catch(e) {
+            assert.include(e.message, "opcode", "Trying to get the tokens prior to the retrieval date should result in an exception");
+        }
+        
+    });
+
+    /**
      * Ensure tokens can't be retrieved before the retrieval date
      */
     it("shoudn't be able to get the tokens before retrieval date", async() => {
@@ -62,7 +76,7 @@ contract('Hodl', accounts => {
             await hodlContract.getTokens(Token.address);
             assert.fail;
         } catch (e) {
-            assert.include(e.message, "revert", "Trying to get the tokens prior to the retrieval date should result in an exception");
+            assert.include(e.message, "opcode", "Trying to get the tokens prior to the retrieval date should result in an exception");
         }
     });
     
@@ -71,7 +85,7 @@ contract('Hodl', accounts => {
      */
     it("should be able to get the tokens back after the retrival date has passed", async() => {
         await sleep(1000);
-        await hodlContract.getTokens(Token.address);
+        await hodlContract.getTokens(Token.address, { from: accounts[0] });
         updatedBalance = await token.balanceOf(accounts[0]);
 
         assert.equal(accountBalance, web3.fromWei(updatedBalance.toNumber(), 'ether'), "Balance should of returned to normal");
