@@ -159,27 +159,27 @@ App = {
   },
 
   getTokens: async() => {
-    $("#get-loading").show();
-    $("#get-update").hide();
-    $("#get-error").hide();
-    $("#get").prop("disabled", true);
-    tokenAddress = $("#get-token-address").val();
+    $("#amount-loading").show();
+    $("#amount-update").hide();
+    $("#amount-error").hide();
+    $("#amount").prop("disabled", true);
+    tokenAddress = $("#amount-token-address").val();
     contract = await App.contracts.Hodl.deployed();
     try {
       receipt = await contract.getTokens(tokenAddress, { from: web3.eth.accounts[0] });
     } catch (e) {
-      $("#get-loading").hide();
-      $("#get-error").show();
-      $("#get-update").hide();
-      $("#get-error").text("Get tokens failed. You have no tokens hodl'd or your expiration date must be after now.");
-      $("#get").prop("disabled", false);
+      $("#amount-loading").hide();
+      $("#amount-error").show();
+      $("#amount-update").hide();
+      $("#amount-error").text("Get tokens failed. You have no tokens hodl'd or your expiration date must be after now.");
+      $("#amount").prop("disabled", false);
       throw(e);
     }
-    $("#get-error").hide();
-    $("#get-update").show();
-    $("#get-update").html("Contract request created. TX ID: <a href='" + App.currentEtherscan + "tx/" + receipt.tx + "'>Etherscan Transaction Link</a>");
-    $("#get-loading").hide();
-    $("#get").prop("disabled", false);
+    $("#amount-error").hide();
+    $("#amount-update").show();
+    $("#amount-update").html("Contract request created. TX ID: <a href='" + App.currentEtherscan + "tx/" + receipt.tx + "'>Etherscan Transaction Link</a>");
+    $("#amount-loading").hide();
+    $("#amount").prop("disabled", false);
   },
 
   hodlTokens: async() => {
