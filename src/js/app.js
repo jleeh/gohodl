@@ -117,6 +117,7 @@ App = {
   checkAmount: async() => {
     contract = await App.contracts.Hodl.deployed();
     tokenAddress = $("#amount-token-address").val();
+    console.log(tokenAddress);
     amount = await contract.getAmount(tokenAddress, { from: web3.eth.accounts[0] });
     if (amount.toNumber() == 0) {
       updateText = "You don't have any tokens by that address!"
@@ -159,27 +160,27 @@ App = {
   },
 
   getTokens: async() => {
-    $("#amount-loading").show();
-    $("#amount-update").hide();
-    $("#amount-error").hide();
-    $("#amount").prop("disabled", true);
-    tokenAddress = $("#amount-token-address").val();
+    $("#get-loading").show();
+    $("#get-update").hide();
+    $("#get-error").hide();
+    $("#get").prop("disabled", true);
+    tokenAddress = $("#get-token-address").val();
     contract = await App.contracts.Hodl.deployed();
     try {
       receipt = await contract.getTokens(tokenAddress, { from: web3.eth.accounts[0] });
     } catch (e) {
-      $("#amount-loading").hide();
-      $("#amount-error").show();
-      $("#amount-update").hide();
-      $("#amount-error").text("Get tokens failed. You have no tokens hodl'd or your expiration date must be after now.");
-      $("#amount").prop("disabled", false);
+      $("#get-loading").hide();
+      $("#get-error").show();
+      $("#get-update").hide();
+      $("#get-error").text("Get tokens failed. You have no tokens hodl'd or your expiration date must be after now.");
+      $("#get").prop("disabled", false);
       throw(e);
     }
-    $("#amount-error").hide();
-    $("#amount-update").show();
-    $("#amount-update").html("Contract request created. TX ID: <a href='" + App.currentEtherscan + "tx/" + receipt.tx + "'>Etherscan Transaction Link</a>");
-    $("#amount-loading").hide();
-    $("#amount").prop("disabled", false);
+    $("#get-error").hide();
+    $("#get-update").show();
+    $("#get-update").html("Contract request created. TX ID: <a href='" + App.currentEtherscan + "tx/" + receipt.tx + "'>Etherscan Transaction Link</a>");
+    $("#get-loading").hide();
+    $("#get").prop("disabled", false);
   },
 
   hodlTokens: async() => {
