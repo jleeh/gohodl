@@ -73,6 +73,8 @@ App = {
         $("#hodl").prop("disabled", false);
         $("#check").prop("disabled", false);
         $("#get").prop("disabled", false);
+        $("#total").prop("disabled", false);
+        $("#amounts").prop("disabled", false);
       });
     });
     $.getJSON('ERC20.json', function(data) {
@@ -91,6 +93,8 @@ App = {
     $(document).on('click', '#check', App.checkRetrieval);
     $(document).on('click', '#hodl', App.hodlTokens);
     $(document).on('click', '#get', App.getTokens);
+    $(document).on('click', '#amounts', App.checkAmount);
+    $(document).on('click', '#total', App.getTotal);
   },
 
   checkRetrieval: async() => {
@@ -107,6 +111,50 @@ App = {
       $("#check-update-error").hide();
       $("#check-update").show();
       $("#check-update").text(updateText);
+    }
+  },
+
+  checkAmount: async() => {
+    contract = await App.contracts.Hodl.deployed();
+    tokenAddress = $("#amount-token-address").val();
+    amount = await contract.getAmount(tokenAddress, { from: web3.eth.accounts[0] });
+    if (amount.toNumber() == 0) {
+      updateText = "You don't have any tokens by that address!"
+      $("#amount-update-error").show();
+      $("#amount-update").hide();
+      $("#amount-update-error").text(updateText);
+    } else {
+      updateText = "Token Amount: " + web3.fromWei(amount, 'ether');
+      $("#amount-update-error").hide();
+      $("#amount-update").show();
+      $("#amount-update").text(updateText);
+    }
+  },
+
+  getTotal: async() => {
+    contract = await App.contracts.Hodl.deployed();
+    tokenAddress = $("#total-token-address").val();
+
+    try {
+      token = await App.contracts.ERC20.at(tokenAddress);
+    } catch (e) {
+      $("#total-update").hide();
+      $("#total-error").show();
+      $("#total-error").text("Invalid Token Address!");
+      throw(e);
+    }
+
+    amount = await token.balanceOf(App.contracts.Hodl.address);
+    if (amount.toNumber() == 0) {
+      updateText = "No tokens hodl'd by that address!"
+      $("#total-error").show();
+      $("#total-update").hide();
+      $("#total-error").text(updateText);
+    } else {
+      updateText = "Total Token Amount: " + web3.fromWei(amount, 'ether');
+      $("#total-error").hide();
+      $("#total-update").show();
+      $("#total-update").text(updateText);
     }
   },
 

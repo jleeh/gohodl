@@ -44,4 +44,8 @@ contract Hodl {
         return timestamps[msg.sender][tokenAddress];
     }
 
+    function getAmount(address tokenAddress) public view returns (uint256) {
+        return amounts[msg.sender][tokenAddress];
+    }
+
 }
